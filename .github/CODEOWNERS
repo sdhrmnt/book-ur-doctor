@@ -1,0 +1,31 @@
+# .github/CODEOWNERS
+# Harus persis sama dengan tabel "Batas Wilayah Kerja" di AGENTS.md §2.
+# Kalau tabel itu berubah, file ini ikut berubah di PR yang sama (owner: Antigravity).
+#
+# Ganti @placeholder-* dengan username GitHub asli.
+# Kalau semua agent commit atas nama akun Anda sendiri, baris ini tetap
+# berguna sebagai penanda review wajib di branch protection ("Require review
+# from Code Owners"), bukan sebagai pemblokir push per agent.
+
+/server/**                     @placeholder-claude-code
+/ai-service/**                 @placeholder-claude-code
+
+/client/**                     @placeholder-cline
+
+/.github/**                    @placeholder-antigravity
+/docs/**                       @placeholder-antigravity
+/README.md                     @placeholder-antigravity
+
+# File aturan & spesifikasi — hanya manusia (owner project), tidak ada agent
+# yang boleh jadi code owner untuk ini.
+/SPEC.md                       @placeholder-owner
+/PRD.md                        @placeholder-owner
+/ARCHITECTURE.md               @placeholder-owner
+/ERD.md                        @placeholder-owner
+/STYLE.md                      @placeholder-owner
+/TESTING.md                    @placeholder-owner
+/AGENTS.md                     @placeholder-owner
+/CLAUDE.md                     @placeholder-owner
+/WORKFLOW.md                   @placeholder-owner
+/.clinerules/**                @placeholder-owner
+/.agents/**                    @placeholder-owner

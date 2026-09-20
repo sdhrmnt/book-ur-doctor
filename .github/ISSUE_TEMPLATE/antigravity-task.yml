@@ -1,0 +1,32 @@
+name: "Task untuk Antigravity (.github/**, docs/**, README.md, config root)"
+description: Satu task CI/dokumentasi/konfigurasi. Satu issue = satu branch = satu PR.
+title: "[infra] "
+labels: ["agent:antigravity"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Tujuan task
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: input
+    id: files
+    attributes:
+      label: File yang boleh diubah
+      placeholder: ".github/workflows/ci.yml, README.md"
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Pengingat batasan
+      options:
+        - label: Tidak menyentuh server/**, ai-service/**, atau client/**
+        - label: Ambang coverage di ci.yml disamakan dengan TESTING.md §3 (kalau diubah)
+        - label: Tidak menambah step yang men-skip atau --forceExit test yang gagal

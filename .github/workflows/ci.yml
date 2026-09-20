@@ -1,0 +1,134 @@
+name: CI
+
+# Menjalankan persis daftar "Yang Memblokir Merge" di TESTING.md §8.
+# Kalau ambang coverage di sini beda dari server/jest.config.js atau
+# TESTING.md §3, CI ini bisa meloloskan PR yang seharusnya ditolak —
+# samakan setiap kali salah satunya diubah manusia.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  server:
+    name: server (lint, unit, integration, e2e, coverage, migration)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: healthcare_portal_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: server
+    env:
+      NODE_ENV: test
+      TZ: UTC
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: healthcare_portal_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: ci-test-secret
+      AI_SERVICE_INTERNAL_KEY: ci-test-key
+      IMAGEKIT_PUBLIC_KEY: ci-fake
+      IMAGEKIT_PRIVATE_KEY: ci-fake
+      IMAGEKIT_URL_ENDPOINT: https://example.invalid
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Migration up
+        run: npm run db:migrate:test
+
+      - name: Migration down (rollback bersih)
+        run: npx sequelize db:migrate:undo:all
+
+      - name: Migration up lagi (state akhir yang dipakai test)
+        run: npm run db:migrate:test
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Integration tests
+        run: npm run test:integration
+
+      - name: E2E tests
+        run: npm run test:e2e
+
+      - name: Coverage (menegakkan ambang di jest.config.js)
+        run: npm run test:coverage
+
+      - name: Upload coverage summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-coverage
+          path: server/coverage/coverage-summary.json
+
+  ai-service:
+    name: ai-service (pytest, coverage)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-service
+    env:
+      AI_SERVICE_INTERNAL_KEY: ci-test-key
+      GEMINI_API_KEY: ci-fake
+      GEMINI_MODEL: gemini-2.5-flash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: pytest (dengan coverage, provider LLM di-mock — lihat TESTING.md §6)
+        run: pytest --cov=. --cov-report=term-missing --cov-fail-under=85
+
+  client:
+    name: client (vitest, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Test (coverage — ambang di TESTING.md §10)
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
