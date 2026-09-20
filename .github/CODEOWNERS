@@ -7,25 +7,25 @@
 # berguna sebagai penanda review wajib di branch protection ("Require review
 # from Code Owners"), bukan sebagai pemblokir push per agent.
 
-/server/**                     @placeholder-claude-code
-/ai-service/**                 @placeholder-claude-code
+/server/**                     @sdhrmnt1101-claude-code
+/ai-service/**                 @sdhrmnt1101-claude-code
 
-/client/**                     @placeholder-cline
+/client/**                     @sdhrmnt1101-cline
 
-/.github/**                    @placeholder-antigravity
-/docs/**                       @placeholder-antigravity
-/README.md                     @placeholder-antigravity
+/.github/**                    @sdhrmnt1101-antigravity
+/docs/**                       @sdhrmnt1101-antigravity
+/README.md                     @sdhrmnt1101-antigravity
 
 # File aturan & spesifikasi — hanya manusia (owner project), tidak ada agent
 # yang boleh jadi code owner untuk ini.
-/SPEC.md                       @placeholder-owner
-/PRD.md                        @placeholder-owner
-/ARCHITECTURE.md               @placeholder-owner
-/ERD.md                        @placeholder-owner
-/STYLE.md                      @placeholder-owner
-/TESTING.md                    @placeholder-owner
-/AGENTS.md                     @placeholder-owner
-/CLAUDE.md                     @placeholder-owner
-/WORKFLOW.md                   @placeholder-owner
-/.clinerules/**                @placeholder-owner
-/.agents/**                    @placeholder-owner
+/SPEC.md                       @sdhrmnt1101-owner
+/PRD.md                        @sdhrmnt1101-owner
+/ARCHITECTURE.md               @sdhrmnt1101-owner
+/ERD.md                        @sdhrmnt1101-owner
+/STYLE.md                      @sdhrmnt1101-owner
+/TESTING.md                    @sdhrmnt1101-owner
+/AGENTS.md                     @sdhrmnt1101-owner
+/CLAUDE.md                     @sdhrmnt1101-owner
+/WORKFLOW.md                   @sdhrmnt1101-owner
+/.clinerules/**                @sdhrmnt1101-owner
+/.agents/**                    @sdhrmnt1101-owner
