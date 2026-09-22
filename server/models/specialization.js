@@ -10,12 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Specialization.hasMany(models.DoctorProfile, {
+        foreignKey: 'SpecializationId'
+      })
       // define association here
     }
   }
   Specialization.init({
-    name: DataTypes.STRING,
-    slug: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: true }
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { is: /^[a-z0-9-]+$/ }
+    } DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Specialization',
