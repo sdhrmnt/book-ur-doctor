@@ -223,7 +223,8 @@ kesimpulan berdiri sendiri. Divalidasi otomatis, lihat `ARCHITECTURE.md §6`.
 
 ## 10. Tech Stack (DIKUNCI — dilarang menambah/mengganti tanpa izin)
 
-- Backend: Node.js 20, Express 4, Sequelize 6, PostgreSQL 15
+- Backend: Node.js 20, Express 5, Sequelize 6, PostgreSQL 15
+- CORS: `cors`, dibutuhkan karena client (Vite, port beda) dan server beda origin
 - Auth: `jsonwebtoken`, `bcryptjs`
 - Real-time: `socket.io` (server) + `socket.io-client` (client)
 - Upload: `multer` (memory storage) → **ImageKit** (SDK `imagekit` Node.js), private file + signed URL
