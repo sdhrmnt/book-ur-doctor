@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  ForeignKeyConstraintError
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class DoctorProfile extends Model {
@@ -10,15 +11,34 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      DoctorProfile.belongsTo(models.User, { foreignKey: 'UserId' });
+      DoctorProfile.belongsTo(models.Specialization, { foreignKey: 'SpecializationId' });
     }
   }
   DoctorProfile.init({
-    UserId: DataTypes.INTEGER,
-    licenseNumber: DataTypes.STRING,
-    experienceYear: DataTypes.INTEGER,
-    consultationFee: DataTypes.INTEGER,
-    languages: DataTypes.STRING,
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
+    },
+    SpecializationId: { type: DataTypes.INTEGER, allowNull: false },
+    licenseNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: { notEmpty: true }
+    },
+    experienceYears: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { isInt: true, min: 0 }
+    },
+    consultationFee: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { isInt: true, min: 0 }
+    },
+    languages: DataTypes.ARRAY(DataTypes.STRING),
     bio: DataTypes.TEXT,
     verifiedAt: DataTypes.DATE
   }, {

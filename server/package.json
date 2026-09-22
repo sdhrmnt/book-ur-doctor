@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "TZ=UTC jest",
+    "test:watch": "TZ=UTC jest --watch",
+    "test:unit": "TZ=UTC jest __tests__/unit",
+    "test:integration": "TZ=UTC jest __tests__/integration --runInBand",
+    "test:e2e": "TZ=UTC jest __tests__/e2e --runInBand",
+    "test:coverage": "TZ=UTC jest --coverage",
+    "db:migrate:test": "NODE_ENV=test sequelize db:migrate"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +21,14 @@
     "cors": "^2.8.6",
     "dotenv": "^18.0.1",
     "express": "^5.2.1",
+    "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "node-cron": "^4.6.0",
     "pg": "^8.23.0",
-    "sequelize": "^6.37.8"
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "jest": "^30.5.2",

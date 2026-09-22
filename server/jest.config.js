@@ -1,0 +1,26 @@
+module.exports = {
+  testEnvironment: 'node',
+  collectCoverage: true,
+  coverageReporters: ['text-summary', 'lcov', 'json-summary'],
+  collectCoverageFrom: [
+    '**/*.js',
+    '!**/node_modules/**',
+    '!**/coverage/**',
+    '!models/**', '!migrations/**', '!seeders/**', '!config/**', '!bin/**',
+    '!jest.config.js',
+  ],
+  coverageThreshold: {
+    global:                               { statements: 85, branches: 80, functions: 85, lines: 85 },
+    './services/accessService.js':        { statements: 100, branches: 100, functions: 100, lines: 100 },
+    './services/availabilityService.js':  { statements: 100, branches: 100, functions: 100, lines: 100 },
+    './helpers/timeRange.js':             { statements: 100, branches: 100, functions: 100, lines: 100 },
+    './services/appointmentService.js':   { statements: 95, branches: 90, functions: 95, lines: 95 },
+    './services/documentService.js':      { statements: 95, branches: 90, functions: 95, lines: 95 },
+    './middlewares/':                     { statements: 90, branches: 85, functions: 90, lines: 90 },
+    './sockets/':                         { statements: 90, branches: 85, functions: 90, lines: 90 },
+    './controllers/':                     { statements: 85, branches: 80, functions: 85, lines: 85 },
+  },
+  setupFilesAfterEnv: ['<rootDir>/__tests__/setup.js'],
+  testTimeout: 15000,
+  maxWorkers: 1,
+};
