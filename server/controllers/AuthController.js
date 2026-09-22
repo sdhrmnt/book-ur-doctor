@@ -1,4 +1,5 @@
 const { User, PatientProfile, sequelize } = require('../models');
+const { UniqueConstraintError } = require('sequelize');
 const { signToken } = require('../helpers/jwt');
 const { comparePassword } = require('../helpers/bcrypt');
 
@@ -14,14 +15,22 @@ class AuthController {
                 };
             }
 
-            const user = await sequelize.transaction(async (t) => {
-                const newUser = await User.create(
-                    { email, password, name, role: 'patient' },
-                    { transaction: t }
-                );
-                await PatientProfile.create({ UserId: newUser.id }, { transaction: t });
-                return newUser;
-            });
+            let user;
+            try {
+                user = await sequelize.transaction(async (t) => {
+                    const newUser = await User.create(
+                        { email, password, name, role: 'patient' },
+                        { transaction: t }
+                    );
+                    await PatientProfile.create({ UserId: newUser.id }, { transaction: t });
+                    return newUser;
+                });
+            } catch (error) {
+                if (error instanceof UniqueConstraintError) {
+                    throw { name: 'Conflict', message: 'Email sudah terdaftar' };
+                }
+                throw error;
+            }
 
             res.status(201).json({
                 message: 'Registrasi berhasil',
