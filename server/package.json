@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "TZ=UTC jest",
+    "test:watch": "TZ=UTC jest --watch",
+    "test:unit": "TZ=UTC jest __tests__/unit",
+    "test:integration": "TZ=UTC jest __tests__/integration --runInBand",
+    "test:e2e": "TZ=UTC jest __tests__/e2e --runInBand",
+    "test:coverage": "TZ=UTC jest --coverage",
+    "db:migrate:test": "NODE_ENV=test sequelize db:migrate"
   },
   "keywords": [],
   "author": "",

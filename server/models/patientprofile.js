@@ -10,13 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      PatientProfile.belongsTo(models.User, { foreignKey: 'UserId' })
       // define association here
     }
   }
   PatientProfile.init({
-    UserId: DataTypes.INTEGER,
-    dateOfBirth: DataTypes.DATE,
-    gender: DataTypes.STRING,
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    dateOfBirth: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { isIn: [['male', 'female', 'undisclosed']] }
+    },
     bloodType: DataTypes.STRING,
     allergies: DataTypes.TEXT,
     emergencyContact: DataTypes.STRING

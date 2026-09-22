@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: { is: /^[a-z0-9-]+$/ }
-    } DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Specialization',
