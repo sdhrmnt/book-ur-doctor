@@ -30,7 +30,7 @@ describe('E16 - Double booking konkuren', () => {
         expect(fulfilled).toHaveLength(1);
         expect(rejected).toHaveLength(1);
         expect(rejected[0].reason.name).toBe('SequelizeUniqueConstraintError');
-        expect(rejected[0].reason.parent.constraint).toBe('appointments_no_double_booking');
+        expect(rejected[0].reason.parent.constraint).toBe('one_active_appointment_per_doctor_slot');
 
         const count = await Appointment.count({ where: { DoctorProfileId: doctorProfile.id, ...slot } });
         expect(count).toBe(1); // tepat 1 baris tersimpan, bukan 0 atau 2
