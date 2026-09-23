@@ -22,11 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     dateOfBirth: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: { isIn: [['male', 'female', 'undisclosed']] }
     },
     bloodType: DataTypes.STRING,
