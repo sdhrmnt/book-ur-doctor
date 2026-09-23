@@ -21,10 +21,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          # Sementara mengikuti nama hardcoded di server/config/config.js.
-          # Lihat issue #12 — setelah config.js membaca DB_NAME dari env,
-          # nama di sini boleh dikembalikan ke healthcare_portal_test.
-          POSTGRES_DB: ur-doc-test
+          POSTGRES_DB: healthcare_portal_test
         ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
@@ -39,10 +36,7 @@ jobs:
       TZ: UTC
       DB_HOST: localhost
       DB_PORT: 5432
-      # Sementara mengikuti nama hardcoded di server/config/config.js.
-      # Lihat issue #12 — setelah config.js membaca DB_NAME dari env,
-      # nama di sini boleh dikembalikan ke healthcare_portal_test.
-      DB_NAME: ur-doc-test
+      DB_NAME_TEST: healthcare_portal_test
       DB_USER: postgres
       DB_PASSWORD: postgres
       JWT_SECRET: ci-test-secret
